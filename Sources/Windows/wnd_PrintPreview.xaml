@@ -1,0 +1,19 @@
+﻿<Window x:Class="UVOutliner.wnd_PrintPreview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uv="clr-namespace:UVOutliner"
+    ShowInTaskbar="False"
+    Title="Print With Preview" Height="507" Width="693" WindowStartupLocation="CenterOwner" FocusManager.FocusedElement="{Binding ElementName=ExportedText}">
+    
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <DocumentViewer Name="DocumentViewer" Grid.Row="1" Margin="0,0,0,0" BorderThickness="0">
+        </DocumentViewer>
+        
+        <TextBlock Name="PleaseWait" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20">Preparing document...</TextBlock>
+    </Grid>
+</Window>

@@ -1,0 +1,91 @@
+﻿<Window x:Class="UVOutliner.wnd_Export"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:uv="clr-namespace:UVOutliner"
+    ShowInTaskbar="False"
+    Title="Export Outline" Height="441" Width="687" WindowStartupLocation="CenterOwner" FocusManager.FocusedElement="{Binding ElementName=ExportedText}">
+    <Window.Resources>
+        <Style TargetType="List">
+            <Setter Property="LineHeight" Value="1"/>
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <Style TargetType="Table">
+            <Setter Property="LineHeight" Value="1"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+        <Style TargetType="ListItem">
+            <Setter Property="Padding" Value="8,4,0,0"/>
+        </Style>
+        <Style TargetType="Paragraph">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Border SnapsToDevicePixels="True">
+            <Border.Background>
+                <LinearGradientBrush x:Uid="LinearGradientBrush_1" StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop x:Uid="GradientStop_1" Color="#F4F4F4" Offset="0.0" />
+                    <GradientStop x:Uid="GradientStop_1" Color="#F4F4F4" Offset="0.04" />
+                    <GradientStop x:Uid="GradientStop_1" Color="#E7E7E7" Offset="0.04" />
+                    <GradientStop x:Uid="GradientStop_3" Color="#C1C1C1" Offset="0.96" />
+                    <GradientStop x:Uid="GradientStop_3" Color="#A4A4A4" Offset="0.96" />
+                    <GradientStop x:Uid="GradientStop_3" Color="#A4A4A4" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background> 
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="8,12,0,12" VerticalAlignment="Center" xml:space="preserve">Export as: </TextBlock>
+            <ComboBox Name="ExportAs" Width="100" Margin="8,12,0,12" SelectionChanged="ExportAs_SelectionChanged">
+                    <ComboBoxItem Name="ExportAsHtml" Tag="html" IsSelected="True">Html</ComboBoxItem>
+                    <ComboBoxItem Name="ExportAsText" Tag="text">Text</ComboBoxItem>
+                    <ComboBoxItem Name="ExportAsRTF" Tag="rtf">Rich Text</ComboBoxItem>                
+                <!--<ComboBoxItem Name="ExportAsXaml" Tag="xaml">Xaml</ComboBoxItem> -->
+            </ComboBox>
+                <CheckBox VerticalAlignment="Center" Margin="8,12,0,12" Name="ExportAsList" Checked="ExportAsList_Checked" Unchecked="ExportAsList_Unchecked">Export as list (only for one column outline)</CheckBox>
+            </StackPanel>
+        </Border>
+                
+        <TextBox Visibility="Hidden" IsReadOnly="True" Grid.Row="1" Margin="0,0,0,0" Name="ExportedText" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderThickness="0">
+        </TextBox>
+
+        <WebBrowser Name="Browser" Visibility="Hidden" Grid.Row="1" />
+        <RichTextBox Visibility="Hidden"  IsReadOnly="True" Grid.Row="1" Margin="0,0,0,0" Name="ExportedRtf" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderThickness="0">
+        </RichTextBox>
+
+        <TextBlock Name="PleaseWait" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20">Exporting, please wait...</TextBlock>
+        
+        <Border SnapsToDevicePixels="True" Grid.Row="2">
+            <Border.Background>
+                <LinearGradientBrush x:Uid="LinearGradientBrush_1" StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop x:Uid="GradientStop_1" Color="#F4F4F4" Offset="0.0" />
+                    <GradientStop x:Uid="GradientStop_1" Color="#F4F4F4" Offset="0.04" />
+                    <GradientStop x:Uid="GradientStop_1" Color="#E7E7E7" Offset="0.04" />
+                    <GradientStop x:Uid="GradientStop_3" Color="#C1C1C1" Offset="0.96" />
+                    <GradientStop x:Uid="GradientStop_3" Color="#A4A4A4" Offset="0.96" />
+                    <GradientStop x:Uid="GradientStop_3" Color="#A4A4A4" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>                    
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="1" Width="110" Padding="0.5" Name="CopyToClipboard" Click="CopyToClipboard_Click">Copy to clipboard</Button>
+                <Button Grid.Column="2" Width="70" Padding="0.5" Margin="8,0,0,0" Name="SaveAs" Click="SaveAs_Click">Save As...</Button>
+                <Button Grid.Column="3" Width="70" Padding="0.5" Margin="12,0,0,0" IsCancel="True">Close</Button>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,31 @@
+﻿<Window x:Class="UVOutliner.Columns.wnd_NewColumn"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowStartupLocation="CenterOwner"
+    Title="Add new column" SizeToContent="Height" Width="397" FocusManager.FocusedElement="{Binding ElementName=ColumnName}" ResizeMode="NoResize">
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock VerticalAlignment="Center">Column name: </TextBlock>
+        <TextBox Grid.Column="1" Width="100" HorizontalAlignment="Left" Margin="4" Name="ColumnName">Column</TextBox>
+        <TextBlock VerticalAlignment="Center" Grid.Row="1" Margin="2" Visibility="Collapsed">Type: </TextBlock>
+        <ComboBox Grid.Row="1" Margin="4" Grid.Column="1" Width="120" Name="ColumnType" HorizontalAlignment="Left" Visibility="Collapsed">
+            <ComboBoxItem IsSelected="True">Rich Text</ComboBoxItem>
+            <ComboBoxItem>Date</ComboBoxItem>
+            <ComboBoxItem>Duration</ComboBoxItem>
+            <ComboBoxItem>Number</ComboBoxItem>
+            <ComboBoxItem>Pop-up list</ComboBoxItem>
+        </ComboBox>
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" Margin="0,12,0,0" HorizontalAlignment="Right">
+            <Button Margin="4,8,4,4" Width="90" IsDefault="True" Click="Add_Click">Add Column</Button>
+            <Button Margin="4,8,4,4" Width="70" IsCancel="True">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>

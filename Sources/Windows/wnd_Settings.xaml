@@ -1,0 +1,103 @@
+﻿<Window x:Class="UVOutliner.wnd_Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Settings" Height="503" Width="527"
+    ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="8">
+    
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0">
+            <GroupBox.Header>
+                <TextBlock Foreground="#4400AA">Default font settings</TextBlock>
+            </GroupBox.Header>
+            <Grid Margin="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock TextWrapping="Wrap" Grid.ColumnSpan="2" Margin="0,8,0,0">
+            Following font settings will be used when no font parameters is explicitly specified for current file and for any newly created ones.
+        </TextBlock>
+
+                <TextBlock Grid.Row="1" Margin="8,12,0,8" VerticalAlignment="Center">Default font:</TextBlock>
+                <ComboBox Grid.Row="1" Name="cbFonts" Width="150" HorizontalAlignment="Left" Grid.Column="1" Margin="8,12,4,8" DisplayMemberPath="{Binding}">
+                </ComboBox>
+
+
+                <TextBlock Grid.Row="2" Margin="8,4,0,8" VerticalAlignment="Center">Default font size:</TextBlock>
+                <ComboBox Grid.Row="2" Name="cbFontSizes" Focusable="False" VerticalContentAlignment="Center" Margin="8,4,0,8" Grid.Column="1" HorizontalAlignment="Left" Width="70">
+                </ComboBox>
+
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox Grid.Row="1" Margin="0,12,0,0">
+            <GroupBox.Header>
+                <TextBlock Foreground="#4400AA">Preview font</TextBlock>
+            </GroupBox.Header>
+            <Grid Margin="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border VerticalAlignment="Top" SnapsToDevicePixels="True" Grid.Column="1" Grid.RowSpan="2" Margin="12,5,0,0" BorderThickness="1" BorderBrush="#666666">
+                    <Image RenderOptions.BitmapScalingMode="NearestNeighbor"
+ Margin="0,0,0,0" VerticalAlignment="Center" Stretch="None" Source="/uv;component/res/fontpreview.png" />
+                </Border>
+          <TextBlock TextWrapping="Wrap" Margin="0,8,0,0">
+            To preview font typeface in font selection box you should check the following option. 
+              Application performance may slightly degrade at startup due to font caching when this option is enabled.
+          </TextBlock>
+                <CheckBox Name="cbPreviewFonts" Grid.Row="1" Margin="8,12,0,8">Preview font typefaces in font selection box</CheckBox>
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="2">
+            <GroupBox.Header>
+                <TextBlock Foreground="#4400AA">Other settings</TextBlock>
+            </GroupBox.Header>
+            <Grid Margin="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <CheckBox Name="OpenLast">Open last saved file on startup</CheckBox>
+            </Grid>
+        </GroupBox>
+
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Width="70" Height="23" Margin="4" IsDefault="True" Click="OK_Click">OK</Button>
+            <Button Width="70" Height="23" Margin="4" IsCancel="True">Cancel</Button>
+            
+        </StackPanel>
+
+    </Grid>
+    
+    
+
+</Window>

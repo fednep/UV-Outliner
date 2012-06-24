@@ -1,0 +1,69 @@
+<Window
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:system="clr-namespace:System;assembly=mscorlib"
+  x:Class="Microsoft.Samples.CustomControls.ColorPickerDialog"
+  xmlns:customControls="clr-namespace:Microsoft.Samples.CustomControls"
+  Title="Select a Color"
+  WindowStartupLocation="CenterOwner"
+  Width="469"
+  Height="381">
+  <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <customControls:ColorPicker Grid.Row="0"
+      x:Name="cPicker"
+       SelectedColorChanged="onSelectedColorChanged" 
+       Margin="10,10,10,0"/>
+
+        <TextBlock Grid.Row="1" Margin="15,8,0,0">Selected colors:</TextBlock>
+        <ItemsControl Grid.Row="2" Margin="15,0,15,8" BorderThickness="0" Name="SelectedColors" Height="30">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type system:String}">
+                    <Button Background="{Binding}" Focusable="False" Tag="{Binding .}" Click="SelectedColor_Click" Cursor="Hand" Margin="5,5,0,0" Width="20" Height="20">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Remove" Command="{x:Static customControls:ColorPickerDialog.RemoveColorCommand}" CommandParameter="{Binding}"/>
+                                <MenuItem Header="Remove All" Command="{x:Static customControls:ColorPickerDialog.RemoveAllColorsCommand}"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border 
+                            BorderBrush="#333333"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="True"
+                                    Background="{TemplateBinding Background}"/>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Border Grid.Row="3" Background="#EEEEEE">
+            <StackPanel HorizontalAlignment="Right" Background="#EEEEEE"
+      Orientation="Horizontal">
+            
+      <Button HorizontalAlignment="Right" Name="OKButton" Margin="10" Width="65" Padding="1"
+        Click="okButtonClicked"
+        IsEnabled="False" IsDefault="True">OK</Button>
+      <Button HorizontalAlignment="Right" Click="cancelButtonClicked" Width="65" Padding="1" Margin="0,10,10,10" IsCancel="True">Cancel</Button>
+    </StackPanel>
+            </Border>
+
+  </Grid>
+
+
+</Window>

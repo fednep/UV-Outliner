@@ -1,0 +1,498 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	    xmlns:s='clr-namespace:System;assembly=mscorlib' 
+        xmlns:l='clr-namespace:UVOutliner'
+        xmlns:dd="clr-namespace:DragDropListBox"
+	    x:Class="UVOutliner.MainWindow"
+	    Title="UV Outliner" Width="640" Height="480"
+        TextOptions.TextFormattingMode="Display"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
+    <Window.Resources>        
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="SaveStyle.xaml"/>
+                    <ResourceDictionary Source="MenuStyle.xaml"/>
+                    <ResourceDictionary Source="ExpanderStyle.xaml"/>
+                    <ResourceDictionary Source="MainWindowStyles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>      
+      </Window.Resources>
+
+    <Grid  Name="MainGrid" Background="#4F6671">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <!-- <RowDefinition Height="20" /> -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel>
+    <Menu Grid.Row="0" Margin="0,0,0,-1" Name="MainMenu">
+      <MenuItem Header="_File">
+        <MenuItem Header="_New Outline Window" Command="{x:Static l:OutlinerCommands.New}" InputGestureText="Ctrl+N"/>
+        <Separator />
+        <MenuItem Header="_Open..." Command="{x:Static l:OutlinerCommands.Open}" InputGestureText="Ctrl+O"/>
+        <MenuItem Header="_Save" Command="{x:Static l:OutlinerCommands.Save}" InputGestureText="Ctrl+S"/>
+        <MenuItem Header="Save _As..." Command="{x:Static l:OutlinerCommands.SaveAs}"/>
+        <Separator />
+          <MenuItem Header="Export..." Command="{x:Static l:OutlinerCommands.Export}"/>
+        <Separator />
+          <MenuItem Header="Print with preview..." Command="{x:Static l:OutlinerCommands.Print}"/>
+        <Separator />
+
+                <MenuItem Header="_Recent items" IsEnabled="False" Name="recentMenuItem"/>
+                <Separator />
+        <MenuItem Header="_Exit UV Outliner" Command="{x:Static l:OutlinerCommands.Exit}"/>  
+      </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="Undo" InputGestureText="Ctrl+Z" Command="{x:Static l:OutlinerCommands.Undo}" />
+                <MenuItem Header="Redo" InputGestureText="Ctrl+Y" Command="{x:Static l:OutlinerCommands.Redo}" />
+                <Separator/>
+                
+                <MenuItem Header="Cut" InputGestureText="Ctrl+X" Command="ApplicationCommands.Cut"/>
+                <MenuItem Header="Copy" InputGestureText="Ctrl+C" Command="ApplicationCommands.Copy"/>
+                <MenuItem Header="Paste" InputGestureText="Ctrl+V" Command="ApplicationCommands.Paste"/>
+                <Separator/>
+                <MenuItem Header="_Settings" Command="{x:Static l:OutlinerCommands.Settings}"/>
+                <Separator/>
+                <MenuItem Header="Show _checkboxes"  IsCheckable="True" IsChecked="{Binding Document.CheckboxesVisble, Mode=OneWay}" Command="{x:Static l:OutlinerCommands.ToggleShowCheckboxes}"/>
+                <MenuItem Header="_Automatic level styles"  IsCheckable="True" IsChecked="{Binding Document.AutoStyles, Mode=OneWay}" Command="{x:Static l:OutlinerCommands.ToggleAutoStyles}"/>
+            </MenuItem>
+            <MenuItem Header="_Insert">
+                
+            <MenuItem Header="Note" InputGestureText="Ctrl+Shift+I" Command="{x:Static l:OutlinerCommands.InsertNote}" /> 
+                <!-- <MenuItem Header="URL" InputGestureText="Ctrl+Shift+U" Command="{x:Static l:OutlinerCommands.InsertURL}" />
+                <MenuItem Header="Attach File" InputGestureText="Ctrl+Shift+A" Command="{x:Static l:OutlinerCommands.AttachFile}" />-->
+            </MenuItem>
+            <MenuItem Header="_Navigation">
+                <MenuItem Header="Move row up" InputGestureText="Ctrl+Up" Command="{x:Static l:OutlinerCommands.MoveRowUp}"/>
+                <MenuItem Header="Move row down" InputGestureText="Ctrl+Down" Command="{x:Static l:OutlinerCommands.MoveRowDown}"/>
+                <MenuItem Header="Increase indentation" InputGestureText="Tab" Command="{x:Static l:OutlinerCommands.IncIndent}"/>
+                <MenuItem Header="Decrease indentation" InputGestureText="Shift+Tab" Command="{x:Static l:OutlinerCommands.DecIndent}"/>
+                <Separator />
+                <MenuItem Header="_Insert row after current" InputGestureText="Enter" Command="{x:Static l:OutlinerCommands.InsertAfterCurrent}"/>
+                <MenuItem Header="_Insert row before current" InputGestureText="Shift+Enter (Ins)" Command="{x:Static l:OutlinerCommands.InsertBeforeCurrent}"/>                
+                <Separator />
+                <MenuItem Header="_Delete current row" InputGestureText="Del" Command="{x:Static l:OutlinerCommands.DeleteCurrentRow}"/>
+                <MenuItem Header="Delete current row (in edit mode)" InputGestureText="Shift+Ctrl+Del" Command="{x:Static l:OutlinerCommands.DeleteCurrentRow}"/>                
+                <Separator/>
+                <MenuItem Header="Edit current row" InputGestureText="F2" Command="{x:Static l:OutlinerCommands.FocusEditor}"/>
+                <MenuItem Header="Finish current row" InputGestureText="ESC" Command="{x:Static l:OutlinerCommands.UnfocusEditor}"/>
+                <Separator/>
+                <MenuItem Header="Expand/Collapse">
+                    <MenuItem Header="Expand all" InputGestureText="Ctrl+Shift+'+'" Command="{x:Static l:OutlinerCommands.ExpandAll}"/>                    
+                    <MenuItem Header="Collapse all" InputGestureText="Ctrl+Shift+'-'" Command="{x:Static l:OutlinerCommands.CollapseAll}"/>
+                    <Separator />
+                    <MenuItem Header="Expand level 1" InputGestureText="Ctrl+Shirt+1" Command="{x:Static l:OutlinerCommands.ExpandAllLevel1}"/>
+                    <MenuItem Header="Expand level 2" InputGestureText="Ctrl+Shirt+2" Command="{x:Static l:OutlinerCommands.ExpandAllLevel2}"/>
+                    <MenuItem Header="Expand level 3" InputGestureText="Ctrl+Shirt+3" Command="{x:Static l:OutlinerCommands.ExpandAllLevel3}"/>
+                    <MenuItem Header="Expand level 4" InputGestureText="Ctrl+Shirt+4" Command="{x:Static l:OutlinerCommands.ExpandAllLevel4}"/>
+                    <MenuItem Header="Expand level 5" InputGestureText="Ctrl+Shirt+5" Command="{x:Static l:OutlinerCommands.ExpandAllLevel5}"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Columns">
+                <MenuItem Header="New column..." Command="{x:Static l:OutlinerCommands.NewColumn}"/>
+                <MenuItem Header="Change column name..." Command="{x:Static l:OutlinerCommands.ChangeColumnName}"/>
+                <MenuItem Header="Remove column..." Command="{x:Static l:OutlinerCommands.RemoveColumn}"/>
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="Hoist"  InputGestureText="Alt+H" Command="{x:Static l:OutlinerCommands.Hoist}"/>
+                <MenuItem Header="Unhoist"  InputGestureText="Alt+G" Command="{x:Static l:OutlinerCommands.Unhoist}"/>
+                <MenuItem Header="UnhoistAll" Command="{x:Static l:OutlinerCommands.UnhoistAll}"/>
+                <Separator />
+                <MenuItem Header="S_how inspectors"  InputGestureText="Ctrl+H" IsCheckable="True" IsChecked="{Binding Document.ShowInspectors, Mode=OneWay}" Command="{x:Static l:OutlinerCommands.ToggleShowInspectors}"/>                                
+            </MenuItem>
+            <MenuItem Header="Hel_p">
+                <MenuItem Header="Tour and screenshots" Command="{x:Static l:MainWindow.TourAndScreenshots}"/>
+                <MenuItem Header="Feedback forum" Command="{x:Static l:MainWindow.Support}"/>                
+                <!--<Separator />
+                <MenuItem Header="Register..." Command="{x:Static l:OutlinerCommands.Register}"/>-->
+                <Separator />
+                <MenuItem Header="About" Command="{x:Static l:MainWindow.About}"/>
+            </MenuItem>
+        </Menu>
+            <Border Name="NewVersionBlock" Visibility="Collapsed" Background="#FFFFAA" BorderBrush="#AAAA99" BorderThickness="1" SnapsToDevicePixels="True" Padding="8,4,8,4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock>UV Outliner <Span Name="NewVersion"></Span> released. <Hyperlink Click="Hyperlink_Click">Download new version now!</Hyperlink></TextBlock>
+                    <TextBlock Grid.Column="1"><Hyperlink Foreground="#666666" Click="DismissNewVersionNotification">Dismiss</Hyperlink></TextBlock>
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <Border Grid.Row="1" Grid.RowSpan="2" BorderThickness="0" Background="{x:Static SystemColors.WindowBrush}">            
+        </Border>
+        
+        <Border x:Name="HoistBorder" Grid.Row="1" BorderThickness="0,0,0,1" Visibility="Collapsed"
+                      SnapsToDevicePixels="True" BorderBrush="#8EA5B0">
+            <l:MyEdit x:Name="HoistCaption" IsReadOnly="True" Focusable="False" Cursor="Arrow" Visibility="Collapsed" />
+        </Border>
+        
+        <l:TreeListView dd:DragDropHelper.IsDragSource="true" 
+                        dd:DragDropHelper.IsDropTarget="true"                         
+                        BorderThickness="0,0,1,0"
+                        Background="Transparent"
+                        BorderBrush="#8EA5B0"                         
+                        Grid.Row="2" x:Name="OutlinerTree" Focusable="False">
+        </l:TreeListView>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="33"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Background="#50CCCCCC" IsHitTestVisible="False" BorderThickness="0,0,1,0" BorderBrush="#50999999"/>
+        </Grid>
+        <!-- <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Name="StatusBarText"/>
+            </StatusBarItem>
+        </StatusBar>
+        -->
+        <Border Name="PropertiesPanelBorder" Grid.Column="1" Grid.RowSpan="3" 
+                SnapsToDevicePixels="True" Margin="0.2,0,0,0"
+                BorderBrush="#8EA5B0" BorderThickness="1,0,0,0" CornerRadius="3,0,0,0" Width="180">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0"
+                                           EndPoint="1,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Color="#CCCCCC"  
+                                        Offset=".2"/> <!-- #D5E8F5 -->
+                        <GradientStop Color="#EEEEEE"
+                                        Offset="1"/>
+                    </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+            </Border.Background>
+                <StackPanel>
+                    <!-- Font settings expander -->
+                    <Expander Name="FontSettings" IsExpanded="True">
+                        <Expander.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto "/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image RenderOptions.BitmapScalingMode="NearestNeighbor" VerticalAlignment="Center" Stretch="None" Margin="8,2,8,0" Source="/uv;component/res/font.png" />
+                            <TextBlock VerticalAlignment="Center" Grid.Column="1" FontSize="11" Foreground="Black" FontWeight="Bold">Font Settings</TextBlock>
+                        </Grid>
+                        </Expander.Header>
+                        <Border Background="#D3D3D3"> <!-- #C2DBED -->
+                        <Grid Margin="8,2,8,6" TextElement.Foreground="White" FocusManager.IsFocusScope="True">
+                        <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="30" />
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" MinHeight="24" />
+                                    <RowDefinition Height="Auto" MinHeight="33" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" MinWidth="92" />
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto" MinWidth="40" />
+                                </Grid.ColumnDefinitions>
+                                <ComboBox Name="cbFonts" Focusable="False" Grid.Column="0" Margin="4,8,4,2" Grid.ColumnSpan="3" ItemsPanel="{StaticResource FontEditComboBoxItemsPanel}" SelectionChanged="Fonts_SelectionChanged" ItemTemplateSelector="{StaticResource FontItemTemplateSelector}">
+                            </ComboBox>
+                                
+                            <ComboBox Name="cbFontSizes" Focusable="False" 
+                                      VerticalContentAlignment="Center" 
+                                      Margin="2,8,0,2" Grid.Column="3" 
+                                      HorizontalAlignment="Left" 
+                                      Width="40"                                       
+                                      FontSize="10"
+                                      SelectionChanged="FontSizes_SelectionChanged">
+                            </ComboBox>
+                                
+                            <Grid Grid.Row="3" Margin="4,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" VerticalAlignment="Center" FontSize="10" Foreground="#42555E">Color:</TextBlock>
+                                <Border Name="SelectColorBorder" Grid.Column="1" VerticalAlignment="Center" 
+                                        Height="15" Width="30" Background="Black" 
+                                        Margin="8,0,0,0" HorizontalAlignment="Left" 
+                                        SnapsToDevicePixels="True" BorderThickness="1" 
+                                        BorderBrush="#333333"></Border>
+                                <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Name="SelectColorImage" 
+                                       Grid.Column="2" VerticalAlignment="Center" 
+                                       Stretch="None" Margin="4,0,4,0" Source="/uv;component/res/color_wheel.png" />
+                            </Grid>
+                                <Grid Margin="0,8,0,0" Grid.Row="4" Grid.ColumnSpan="4" HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ToggleButton Name="FontBold" Focusable="False" Padding="0,1,0,1" Width="22"  Grid.Row="3" Grid.Column="0" Margin="3" Click="FontBold_Click">
+                                        <TextBlock FontSize="10" FontWeight="Bold">B</TextBlock>
+                                    </ToggleButton>
+                                    <ToggleButton Name="FontItalic" Focusable="False" Padding="0,1,1.5,1" Width="20.5" Grid.Row="3" Grid.Column="1" Margin="3" Click="FontItalic_Click">
+                                        <TextBlock FontSize="10" FontStyle="Italic" FontFamily="Times New Roman">I</TextBlock>
+                                    </ToggleButton> <!-- Padding="5,1,5,1" -->
+                                    <ToggleButton Name="FontUnderline" Focusable="False" Padding="0,1,0,1" Width="57" Grid.Row="3" Grid.Column="2" Margin="3" Click="FontUnderline_Click">
+                                        <TextBlock FontSize="10" TextDecorations="Underline">Underline</TextBlock>
+                                    </ToggleButton>
+                                    <ToggleButton Name="FontStrikethrough" Focusable="False" Width="37" Padding="0,1,0,1" Grid.Row="3" Grid.Column="3" Margin="3" Click="FontStrikethrough_Click">
+                                        <TextBlock FontSize="10">
+      <TextBlock.TextDecorations>
+        <TextDecoration Location="Strikethrough">
+          <TextDecoration.Pen>
+            <Pen Brush="Black" />
+          </TextDecoration.Pen>
+        </TextDecoration>
+      </TextBlock.TextDecorations>Strike</TextBlock>
+                                    </ToggleButton>
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                    </Expander>
+                    <!-- List properties -->
+                    <!--
+                    <Expander Name="ListProperties" IsExpanded="False">
+                    <Expander.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto "/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image RenderOptions.BitmapScalingMode="NearestNeighbor" VerticalAlignment="Center" Stretch="None" Margin="8,2,8,0" Source="/uv;component/res/text_list_bullets.png" />
+                            <TextBlock VerticalAlignment="Center" Grid.Column="1" FontSize="11" Foreground="Black" FontWeight="Bold">List Options</TextBlock>
+                        </Grid>
+                    </Expander.Header>
+                    <Border Background="#D3D3D3">
+                        
+                        <Grid Margin="8,2,8,6" TextElement.Foreground="White" FocusManager.IsFocusScope="True">
+                            <StackPanel Margin="0,4,0,4">
+                              
+                                <TextBlock Margin="0,4,0,0" FontWeight="Heavy" Foreground="Black"><CheckBox Name="RowCheckboxes" IsChecked="{Binding ShowCheckbox}">Show checkboxes</CheckBox></TextBlock>
+                               
+                                <Grid Margin="0,16,4,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock FontWeight="Heavy" Foreground="Black">List type:</TextBlock>
+                                    
+                                    <ComboBox Margin="8,0,0,0" Grid.Column="1" SelectedIndex="{Binding RowNumberStyle}" >
+                                     
+                                        <ComboBoxItem>• • •</ComboBoxItem>
+                                        <Separator />
+                                        <ComboBoxItem>1. 2. 3.</ComboBoxItem>
+                                        <ComboBoxItem>1) 2) 3)</ComboBoxItem>
+                                        <ComboBoxItem>1 2 3</ComboBoxItem>
+                                        <Separator />
+                                        <ComboBoxItem>I. II. III.</ComboBoxItem>
+                                        <ComboBoxItem>I) II) III)</ComboBoxItem>
+                                        <ComboBoxItem>I II III</ComboBoxItem>
+                                        <Separator />
+                                        <ComboBoxItem>a. b. c.</ComboBoxItem>
+                                        <ComboBoxItem>a) b) c)</ComboBoxItem>
+                                        <ComboBoxItem>a b c</ComboBoxItem>
+                                        <Separator />
+                                        <ComboBoxItem>A. B. C.</ComboBoxItem>
+                                        <ComboBoxItem>A) B) C)</ComboBoxItem>
+                                        <ComboBoxItem>A B C</ComboBoxItem>
+                                    </ComboBox>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Expander>
+                    -->
+
+                <Expander Name="Find">
+                    <Expander.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto "/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image RenderOptions.BitmapScalingMode="NearestNeighbor" VerticalAlignment="Center" Stretch="None" Margin="8,2,8,0" Source="/uv;component/res/find.png" />
+                            <TextBlock VerticalAlignment="Center" Grid.Column="1" FontSize="11" Foreground="Black" FontWeight="Bold">Find</TextBlock>
+                        </Grid>
+                    </Expander.Header>
+                    <Border Background="#D3D3D3">
+                        <Grid Margin="0,16,0,16" FocusManager.IsFocusScope="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Margin="8,2,2,2" VerticalAlignment="Center">Find:</TextBlock>
+                            <TextBox Margin="2,2,8,2" Grid.Column="1" Name="FindString" KeyDown="FindString_KeyDown"></TextBox>
+                            <Button Focusable="False" Name="FindButton" Click="FindButton_Click" Grid.Row="1" Grid.Column="1" Width="70" IsDefault="{Binding ElementName=FindString,Path=IsFocused}" Margin="2,4,2,2" HorizontalAlignment="Left">Find</Button>
+                        </Grid>
+                    </Border>
+                </Expander>
+                <Expander Name="DocumentLayout">
+                    <Expander.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto "/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image RenderOptions.BitmapScalingMode="NearestNeighbor" VerticalAlignment="Center" Stretch="None" Margin="8,2,8,0" Source="/uv;component/res/color_swatch.png" />
+                            <TextBlock VerticalAlignment="Center" Grid.Column="1" FontSize="11" Foreground="Black" FontWeight="Bold">Document Style</TextBlock>
+                        </Grid>
+                    </Expander.Header>                    
+                    <Border Background="#D3D3D3">
+                        <Grid Grid.Row="3" Margin="16,8,8,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Margin="0,4,0,0" FontWeight="Heavy" Foreground="Black">
+                                Rows Background:
+                            </TextBlock>
+
+                            <TextBlock Grid.Row="1" Margin="16,4,0,0" Grid.Column="0" VerticalAlignment="Center" FontSize="10" Foreground="#42555E">Even Rows:</TextBlock>
+                            <Border  Grid.Row="1" Margin="4,4,0,0" Grid.Column="1"  Name="EvenRowBorder"
+                                     VerticalAlignment="Center" Height="15" 
+                                     Width="30" Background="{Binding Document.EvenBackgroundColor}" HorizontalAlignment="Left" 
+                                     SnapsToDevicePixels="True" BorderThickness="1" MouseLeftButtonDown="EvenRowBorder_MouseLeftButtonDown"
+                                     BorderBrush="#333333"></Border>
+
+                            <TextBlock Grid.Column="0" Margin="16,4,0,0" Grid.Row="2" VerticalAlignment="Center" FontSize="10" Foreground="#42555E">Odd Rows:</TextBlock>
+                            <Border  Grid.Column="1" Margin="4,4,0,0" Grid.Row="2" Name="OddRowBorder"
+                                     VerticalAlignment="Center" Height="15" Width="30" 
+                                     Background="{Binding Document.OddBackgroundColor}" 
+                                     HorizontalAlignment="Left" 
+                                     SnapsToDevicePixels="True" BorderThickness="1" 
+                                     BorderBrush="#333333" MouseLeftButtonDown="OddRowBorder_MouseLeftButtonDown"></Border>
+                            <CheckBox Grid.Column="2" Margin="4,4,0,0" Grid.Row="2" IsChecked="{Binding Document.AutoOddBackgroundColor}">Auto</CheckBox>
+
+                            <TextBlock Grid.Row="3" Grid.ColumnSpan="3" Margin="0,8,0,0" FontWeight="Heavy" Foreground="Black">
+                                <CheckBox Name="RowLines" IsChecked="{Binding Document.LinesBetweenRows}">Lines Between Rows</CheckBox></TextBlock>
+                            <TextBlock Grid.Row="4" Margin="16,4,0,0" Grid.Column="0" VerticalAlignment="Center" FontSize="10" Foreground="#42555E">Line color:</TextBlock>
+                            <Border  Grid.Row="4" Margin="4,4,0,0" Grid.Column="1" Name="RowLineColorBorder"
+                                     VerticalAlignment="Center" Height="15" 
+                                     Width="30" Background="{Binding Document.LinesBetweenRowsBrush}" 
+                                     HorizontalAlignment="Left" SnapsToDevicePixels="True" MouseLeftButtonDown="RowLineColorBorder_MouseLeftButtonDown"
+                                     BorderThickness="1" BorderBrush="#333333"></Border>
+                        </Grid>
+                    </Border>
+                </Expander>
+
+                <!--
+                <Expander>
+                        <Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto "/>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image VerticalAlignment="Center" Stretch="None" Margin="8,2,8,0" Source="/uv;component/res/pencil_go.png" />
+                                <TextBlock VerticalAlignment="Center" Grid.Column="1" FontSize="11" Foreground="Black" FontWeight="Bold">Outline</TextBlock>
+                            </Grid>
+                        </Expander.Header>
+                        <Grid>
+                            <TextBlock>Outline</TextBlock>
+                        </Grid>
+                    </Expander>
+                    -->
+                <Expander Name="StylesExpander" IsExpanded="False">
+                    <Expander.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto "/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image RenderOptions.BitmapScalingMode="NearestNeighbor" VerticalAlignment="Center" Stretch="None" Margin="8,2,8,0" Source="/uv;component/res/style.png" />
+                            <TextBlock VerticalAlignment="Center" Grid.Column="1" FontSize="11" Foreground="Black" FontWeight="Bold">Level Styles</TextBlock>
+                        </Grid>
+                    </Expander.Header>
+                    <Border Background="#D3D3D3">
+                        <Grid Margin="8,2,8,2" TextElement.Foreground="White">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" MinHeight="100" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <!-- <TextBlock FontSize="10" Foreground="#42555E" Margin="4,8,4,8" VerticalAlignment="Center">Style:</TextBlock>-->
+                            <ListBox Margin="-6,0,-6,0" 
+                                     Grid.Row="1" 
+                                     Name="StylesList"
+                                     ItemsSource="{Binding Document.Styles}" 
+                                     Grid.ColumnSpan="2"
+                                     ItemTemplate="{StaticResource StylenameTemplate}"
+                                     SelectionChanged="StylesList_SelectionChanged"
+                                     LostFocus="StylesList_LostFocus"                                     
+                                     GotFocus="StylesList_GotFocus"
+                                     KeyDown="StylesList_KeyDown"
+                                     
+                                     >
+                            </ListBox>
+                            <!--
+                            <ComboBox 
+                                Name="CurrentStyle" 
+                                Grid.Column="1" 
+                                Margin="0,8,4,8" 
+                                 
+                                DisplayMemberPath="Name"
+                                SelectionChanged="CurrentStyle_SelectionChanged">
+                            </ComboBox>
+                            -->
+                            <!--
+                            <ListBox Margin="-6,0,-6,0" Grid.Row="1" Grid.ColumnSpan="2" Name="StyleProperties" DisplayMemberPath="DisplayValue">
+                            </ListBox>
+                            
+                            
+                            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Width="20" Margin="4,8,4,4" FontSize="10"  Name="AddStyleProperty" Click="AddStyleProperty_Click">+</Button>
+                                <Button Width="20" Margin="0,8,4,4" FontSize="10" Name="RemoveStyleProperty" Click="RemoveStyleProperty_Click">-<Button.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=StyleProperties,Path=SelectedValue}" Value="{x:Null}">
+                                                    <Setter Property="Button.IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </StackPanel>
+                            -->
+                            <!-- <Button Grid.Row="3" Grid.ColumnSpan="2" Margin="2">Apply to current row</Button> 
+                            <Button Grid.Row="4" FontSize="10" Grid.ColumnSpan="2" Margin="2,8,2,2" Name="ApplyStyleForAllRows" Click="ApplyStyleForAllRows_Click">Apply for all rows</Button>
+                            -->
+                        </Grid>
+                    </Border>
+                </Expander>
+
+            </StackPanel>
+        </Border>
+        <TextBlock Name="FontPreloader" Text=" " VerticalAlignment="Bottom" Visibility="Hidden"/> 
+        <Border Name="DimBorder" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Background="#90999999" Visibility="Hidden">            
+        </Border>
+    </Grid>
+</Window>
+

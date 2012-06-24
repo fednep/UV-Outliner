@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:l='clr-namespace:UVOutliner'>
+    <!-- CheckBox style-->
+    <Style x:Key="CheckBoxFadeOut" TargetType="FrameworkElement">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=Check,Path=IsChecked}" Value="True">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard x:Uid="BeginStoryboard_1">
+                        <Storyboard x:Uid="Storyboard_1">
+                            <DoubleAnimation 
+                        x:Uid="DoubleAnimation_1"
+                        Storyboard.TargetProperty="Opacity" 
+                        From="1" To="0.4"
+                        Duration="0:0:0.3" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard x:Uid="BeginStoryboard_1">
+                        <Storyboard x:Uid="Storyboard_1">
+                            <DoubleAnimation                         
+                        Storyboard.TargetProperty="Opacity" 
+                        From="0.4" To="1"
+                        Duration="0:0:0.3" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

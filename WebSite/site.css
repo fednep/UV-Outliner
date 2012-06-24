@@ -1,0 +1,67 @@
+
+body {font-family: arial,helvetica,sans-serif; font-size: 13px; margin: 0px; }
+.main_table { padding-top: 12px; padding-bottom: 8px; }	
+
+h1 {font-family: Times New Roman; font-weight: normal; margin-top: 1em; font-size: 20pt;}
+h2 {font-family: Times New Roman; font-weight: normal; margin-top: 1em; font-size: 16pt; margin-top: 1em; margin-bottom: 0.5em;}
+p {font-family: Trebuchet MS; line-height: 1.5em; color: #333333;}
+
+.menu { margin-left: 10px; margin-bottom: 12px;}
+img {border: 0px; }
+.menu td {padding-left: 10px;padding-right:10px; }
+
+td.sel {font-weight: bold;}
+
+a {color: #AE1B13; text-decoration: none;}
+a:hover {color: #AE1B13; text-decoration: underline;}
+
+.blog {margin-top: 3em; margin-left: 50px;}
+.twitter {margin-top: 3em; margin-left: 50px;}
+.quote {font-style: italic; color: #444444; margin-top: 2em; margin-left: 50px;}
+.quote_first {font-style: italic; color: #444444; margin-top: 6em; margin-left: 50px;}
+.author {margin-top: 0.3em; margin-left: 50px;}
+.autor_site {margin-top: 0.3em; margin-left: 50px;}
+.quote_link {margin-top: 1em; margin-left: 50px;}
+.purchase_table {margin-left: 70px; margin-top: 2em;}
+
+.copyright {margin-left: 50px; font-size:10pt; margin-top: 2em; margin-bottom: 1em; color: #555555;}
+
+.shortcuts td {padding: 0px 0px 10px 0px;}
+
+
+.rc{display:block}
+.rc *{
+  display:block;
+  height:1px;
+  overflow:hidden;
+  font-size:.01em;
+  background:#FFFFFF}
+.rc1{
+  margin-left:3px;
+  margin-right:3px;
+  padding-left:1px;
+  padding-right:1px;
+  border-left:1px solid #f5f5f5;
+  border-right:1px solid #f5f5f5;
+  background:#fafafa}
+.rc2{
+  margin-left:1px;
+  margin-right:1px;
+  padding-right:1px;
+  padding-left:1px;
+  border-left:1px solid #efefef;
+  border-right:1px solid #efefef;
+  background:#fbfbfb}
+.rc3{
+  margin-left:1px;
+  margin-right:1px;
+  border-left:1px solid #fbfbfb;
+  border-right:1px solid #fbfbfb;}
+.rc4{
+  border-left:1px solid #f5f5f5;
+  border-right:1px solid #f5f5f5}
+.rc5{
+  border-left:1px solid #fafafa;
+  border-right:1px solid #fafafa}
+.rcfg{
+  background:#FFFFFF}

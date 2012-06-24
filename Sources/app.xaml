@@ -1,0 +1,17 @@
+﻿<Application x:Class="UVOutliner.app"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Startup="AppStartup"
+    >
+    <Application.Resources>
+
+            <ResourceDictionary x:Uid="ResourceDictionary_1">
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="Res\Strings.xaml" />
+                    <ResourceDictionary Source="NoteIcons.xaml" />
+                    <ResourceDictionary Source="3rdParty\ColorPicker\Themes\generic.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+
+    </Application.Resources>
+</Application>

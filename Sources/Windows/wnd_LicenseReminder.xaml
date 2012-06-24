@@ -1,0 +1,27 @@
+﻿<Window x:Class="UVOutliner.wnd_LicenseReminder"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    ShowInTaskbar="False"
+    Title="Thank you for trying out UV Outliner" Height="234" Width="448" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Margin="0,8,0,0" FontSize="16" Foreground="#000099">Thank you for trying out UV Outliner</TextBlock>
+            
+            <TextBlock TextWrapping="Wrap" Margin="0,12,0,18">We hope you like it and consider to switch to the paid version.  </TextBlock>
+
+            <Border CornerRadius="8" BorderThickness="0" Background="#CBFFC3" Width="210" SnapsToDevicePixels="True">
+                <StackPanel Margin="0,4,0,6">
+                    <TextBlock HorizontalAlignment="Center" FontSize="16" Name="tbDemo" Margin="0,4,0,4"><Hyperlink Name="Buy" Click="Buy_Click">Buy UV Outliner now!</Hyperlink></TextBlock>
+                    <!--<TextBlock HorizontalAlignment="Center" FontSize="16"> It costs only <Run Foreground="#009900">$9,98</Run></TextBlock>-->
+                </StackPanel>
+            </Border>
+
+
+        </StackPanel>
+        <Button Grid.Row="1" HorizontalAlignment="Right" Width="75" Height="25" Click="Button_Click">Dismiss</Button>
+    </Grid>
+</Window>
